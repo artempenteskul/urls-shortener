@@ -1,0 +1,6 @@
+.idea
+.env.dev
+.env.prod
+.env.prod.db
+venv
+.pytest_cache
