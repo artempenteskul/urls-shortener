@@ -1,5 +1,5 @@
 build:
   docker:
-    web: Dockerfile
+    web: Dockerfile.prod
 run:
   web: gunicorn app.base.wsgi:application --bind 0.0.0.0:$PORT
