@@ -6,11 +6,10 @@ from django.contrib.auth.models import User
 from django.core.validators import URLValidator
 
 
-HOST_NAME = 'http://localhost:8000/'
-
-
 class Url(models.Model):
     url = models.CharField(max_length=250, validators=[URLValidator()], verbose_name='url')
+    scheme = models.CharField(max_length=20, blank=True, null=True)
+    hostname = models.CharField(max_length=50, blank=True, null=True)
     user = models.ForeignKey(User, related_name='urls', blank=True, null=True, on_delete=models.CASCADE, verbose_name='user')
     url_hash = models.CharField(max_length=10, unique=True, db_index=True, blank=True, null=True, verbose_name='url-hash')
     short_url = models.CharField(max_length=250, validators=[URLValidator()], blank=True, null=True, verbose_name='short-url')
@@ -34,4 +33,4 @@ class Url(models.Model):
         return url_hash
 
     def create_short_url(self):
-        return HOST_NAME + self.url_hash
+        return self.scheme + '://' + self.hostname + '/' + self.url_hash
