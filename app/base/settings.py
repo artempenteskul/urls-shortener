@@ -1,9 +1,17 @@
 import os
 
+import django_heroku
+import environ
+
 from pathlib import Path
 
+env = environ.Env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env.prod'))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env.prod.db'))
+
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
@@ -113,3 +121,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 3
 }
+
+django_heroku.settings(locals())
