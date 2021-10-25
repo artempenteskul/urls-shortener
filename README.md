@@ -21,9 +21,8 @@
    3) docker-compose down (shut down the service)
 5) to run the service in the production mode:
    1) docker-compose -f docker-compose.prod.yml up -d
-   2) docker exec -it <container_id> python manage.py collectstatic (serving static files)
-   3) docker exec -it <container_id> python manage.py createsuperuser
-   4) docker-compose -f docker-compose.prod.yml down (shut down the service)
+   2) docker exec -it <container_id> python manage.py createsuperuser
+   3) docker-compose -f docker-compose.prod.yml down (shut down the service)
 6) to run the tests in both modes:
     1) docker exec -it <container_id> pytest
  
