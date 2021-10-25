@@ -10,7 +10,6 @@ class Url(models.Model):
     url = models.CharField(max_length=250, validators=[URLValidator()], verbose_name='url')
     scheme = models.CharField(max_length=20, blank=True, null=True)
     hostname = models.CharField(max_length=50, blank=True, null=True)
-    port = models.CharField(max_length=10, blank=True, null=True)
     user = models.ForeignKey(User, related_name='urls', blank=True, null=True, on_delete=models.CASCADE, verbose_name='user')
     url_hash = models.CharField(max_length=10, unique=True, db_index=True, blank=True, null=True, verbose_name='url-hash')
     short_url = models.CharField(max_length=250, validators=[URLValidator()], blank=True, null=True, verbose_name='short-url')
@@ -34,10 +33,4 @@ class Url(models.Model):
         return url_hash
 
     def create_short_url(self):
-        scheme = self.scheme
-        hostname = self.hostname
-        port = self.port
-        url_hash = self.url_hash
-        if port in hostname:
-            return scheme + '://' + hostname + '/' + url_hash
-        return scheme + '://' + hostname + ':' + port + '/' + url_hash
+        return self.scheme + '://' + self.hostname + '/' + self.url_hash

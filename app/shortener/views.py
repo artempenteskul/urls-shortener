@@ -32,8 +32,7 @@ class UrlShortener(generics.CreateAPIView):
             return Response(short_url)
         serializer = UrlSerializer(data={'url': kwargs['full_url']})
         if serializer.is_valid(raise_exception=True):
-            url = serializer.save(user=request.user, scheme=request.scheme,
-                                  hostname=request.get_host(), port=request.get_port())
+            url = serializer.save(user=request.user, scheme=request.scheme, hostname=request.get_host())
             short_url = url.short_url
             return Response(short_url)
 
