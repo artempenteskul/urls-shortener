@@ -27,12 +27,12 @@ class UrlShortener(generics.CreateAPIView):
         url = Url.objects.filter(url=request.data['url'], user=request.user).first()
         if url:
             short_url = url.short_url
-            return Response(short_url, status=status.HTTP_201_CREATED)
+            return Response(short_url)
         serializer = UrlSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             url = serializer.save(user=request.user, scheme=request.scheme, hostname=request.get_host())
             short_url = url.short_url
-            return Response(short_url)
+            return Response(short_url, status=status.HTTP_201_CREATED)
 
 
 class UrlRedirectView(generics.ListAPIView):
