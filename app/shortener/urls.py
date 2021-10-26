@@ -6,7 +6,7 @@ app_name = 'shortener'
 
 urlpatterns = [
     path('', UrlListView.as_view(), name='url-list'),
-    re_path(r'^shortener/(?P<full_url>.+)$', UrlShortener.as_view(), name='short-url'),
+    path('shorten/', UrlShortener.as_view(), name='shortener'),
     path('<url_hash>/', UrlRedirectView.as_view(), name='url-redirect'),
     path('urls/count/', UrlCountView.as_view(), name='url-count'),
     path('urls/popular/', UrlPopularView.as_view(), name='urls-popular'),
