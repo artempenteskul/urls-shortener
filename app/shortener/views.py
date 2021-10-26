@@ -23,9 +23,8 @@ class UrlShortener(generics.CreateAPIView):
     serializer_class = UrlSerializer
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, *args, **kwargs):
-        url = request.data['url']
-        url = Url.objects.filter(url=request.data['url'])
+    def post(self, request, *args, **kwargs)       ´
+        url = Url.objects.filter(url=request.data['url'], user=request.user).first()
         if url:
             short_url = url.short_url
             return Response(short_url, status=status.HTTP_201_CREATED)
