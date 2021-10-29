@@ -1,5 +1,7 @@
 from django.db.models import Count
 from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
@@ -37,7 +39,7 @@ class UrlShortener(generics.CreateAPIView):
 
 class UrlRedirectView(generics.ListAPIView):
     """
-        url redirect view
+        redirects to the full url through short url
     """
     def get(self, request, **kwargs):
         url = Url.objects.get(url_hash=kwargs['url_hash'])
@@ -47,7 +49,7 @@ class UrlRedirectView(generics.ListAPIView):
 
 class UrlCountView(generics.ListAPIView):
     """
-        counts the number of distinct urls
+        counts the number of urls
     """
     def get(self, request, **kwargs):
         urls_count = Url.objects.count()
@@ -59,6 +61,7 @@ class UrlPopularView(generics.ListAPIView):
     """
         returns ten most popular shortened urls
     """
+    @method_decorator(cache_page(60 * 5))
     def get(self, request, **kwargs):
         urls_popular = Url.objects.values('url').annotate(total=Count('id', distinct=True)).order_by('-total')[:10]
         content = {'urls_popular': urls_popular}
