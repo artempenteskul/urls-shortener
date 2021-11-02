@@ -4,13 +4,20 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
 from rest_framework import generics
-from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from .models import Url
-from .serializers import UrlSerializer
+from .serializers import UrlSerializer, RegistrationSerializer
+
+
+class RegistrationView(generics.CreateAPIView):
+    """
+        registers new user
+    """
+    permission_classes = [AllowAny]
+    serializer_class = RegistrationSerializer
 
 
 class UrlListView(generics.ListAPIView):
