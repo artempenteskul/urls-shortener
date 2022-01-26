@@ -24,11 +24,10 @@ class Url(models.Model):
 
     def generate_url_hash(self):
         url_hash = base64.urlsafe_b64encode(uuid.uuid1().bytes)[:8]
-        hash_exist = Url.objects.filter(url_hash=url_hash)
+        hash_exist = Url.objects.filter(url_hash=url_hash).exists()
         while hash_exist:
             url_hash = base64.urlsafe_b64encode(uuid.uuid1().bytes)[:8]
-            hash_exist = Url.objects.filter(url_hash=url_hash)
-            continue
+            hash_exist = Url.objects.filter(url_hash=url_hash).exists()
         url_hash = url_hash.decode('utf-8')
         return url_hash
 

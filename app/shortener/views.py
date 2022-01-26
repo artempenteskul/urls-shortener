@@ -16,7 +16,6 @@ class RegistrationView(generics.CreateAPIView):
     """
         registers new user
     """
-    permission_classes = [AllowAny]
     serializer_class = RegistrationSerializer
 
 
@@ -33,7 +32,7 @@ class UrlShortener(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        url = Url.objects.filter(url=request.data['url'], user=request.user).first()
+        url = Url.objects.filter(url=request.data['url'], user=request.user).exists()
         if url:
             short_url = url.short_url
             return Response(short_url)
